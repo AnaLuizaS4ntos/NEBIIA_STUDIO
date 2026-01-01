@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Nebbia Studio</h1>
+    <h2>Roteiros Salvos:</h2>
+    <ul>
+        {% for r in roteiros %}
+            <li>
+                <a href="{{ url_for('ler', id=r[0]) }}">{{ r[1] }}</a>
+            </li>
+        {% else %}
+            <li>Nenhum roteiro cadastrado.</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('criar') }}" class="btn btn-primary">Criar Novo Roteiro</a>
+{% endblock %}

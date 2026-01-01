@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Criar Roteiro Profissional</h2>
+    <form method="post" onsubmit="return salvaConteudo();">
+        <label for="titulo">Título do Roteiro</label>
+        <input name="titulo" required>
+
+        <label for="conteudo">Conteúdo do Roteiro</label>
+        <!-- TinyMCE textarea -->
+        <textarea id="roteiro_editor"></textarea>
+        <input type="hidden" name="conteudo" id="roteiro_invisivel">
+
+        <button type="submit" id="salvar_roteiro">Salvar roteiro</button>
+        <button type="button" id="btn btn-warning" onclick="apagarConteudo()">Apagar conteúdo</button>
+
+    </form>
+
+    <script src="https://cdn.tiny.cloud/1/c0tz1vaqhk4377r1kpgq1573omok8ktikm8mhr2snonhhqw2/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: '#roteiro_editor',
+        height: 400,
+        menubar: false,
+        plugins: [
+          'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview', 'anchor',
+          'searchreplace', 'visualblocks', 'code', 'insertdatetime', 'table'
+        ],
+        toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code',
+        content_style: "body { font-family: Courier New, monospace; font-size: 1.1em; background:#fff; }"
+      });
+
+      function salvaConteudo() {
+        document.getElementById('roteiro_invisivel').value = tinymce.get('roteiro_editor').getContent();
+        return true; // permite submit
+      }
+
+      function apagarConteudo(){
+        if(confirm("Você quer mesmo excluir todo o conteúdo do roteiro? Isso não poder ser desfeito!")){
+          tinymce.get('roteiro_editor').setContent('');
+          document.getElementById('roteiro_invisivel').value = ''; //Limpa o conteudo
+        }
+      }
+    </script>
+{% endblock %} 

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="max-width: 400px; margin-top: 50px;">
+    <h2>Criar Conta</h2>
+    <form action="/cadastro" method="POST">
+
+        <label>Nome:</label>
+        <input type="text" name="nome" required placeholder="Seu nome de usuário"><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required placeholder="email@exemplo.com"><br>
+
+        <label>Senha:</label>
+        <input type="password" name="senha" required><br>
+
+        <button type="submit" class="btn">Cadastrar</button>
+
+    </form>
+</div>
+{% endblock %}
+

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    /* --- REGRAS PARA A TELA (DARK MODE) --- */
+    .roteiro-view {
+        font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+        width: 100%;
+        max-width: 8.5in; /* Largura A4 */
+        margin: 0 auto;
+        color: #e0e0e0; /* Cinza claro pra ler na tela */
+        padding: 20px;
+    }
+
+    /* As Classes do Roteiro (TELA) */
+    .roteiro-view .sc-scene {
+        font-weight: bold; text-transform: uppercase;
+        margin-top: 2rem; margin-bottom: 1rem;
+        display: block; width: 100%;
+    }
+    
+    .roteiro-view .sc-action {
+        text-align: left; display: block; width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .roteiro-view .sc-character {
+        text-align: left; display: block;
+        margin-left: 3.7in; /* Recuo do Personagem */
+        font-weight: bold; text-transform: uppercase;
+        margin-top: 1.5rem; margin-bottom: 0;
+    }
+    
+    .roteiro-view .sc-dialogue {
+        text-align: left; display: block;
+        margin-left: 2.5in; /* Começa aqui */
+        width: 3.5in;       /* Trava a largura aqui */
+        max-width: 3.5in;   /* Garante que não estoure */
+        margin-bottom: 0;
+    }
+    
+    .roteiro-view .sc-parenthetical {
+        text-align: left; display: block;
+        margin-left: 3.1in; width: 2.5in;
+        font-style: italic; margin-bottom: 0;
+    }
+    
+    .roteiro-view .sc-transition {
+        text-align: right; display: block; width: 100%;
+        margin-top: 1.5rem; margin-bottom: 1.5rem;
+        text-transform: uppercase;
+    }
+
+    /* --- REGRAS PARA O PDF (IMPRESSÃO) --- */
+    @media print {
+        /* Esconde botões e menu */
+        .no-print, nav, footer, .btn { display: none !important; }
+
+        /* Reseta a página */
+        body, .container, .roteiro-view {
+            background-color: white !important;
+            margin: 0 !important; padding: 0 !important;
+            width: 100% !important; max-width: none !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        @page { size: A4; margin: 1in; }
+
+        /* FORÇA TEXTO PRETO E POSICIONAMENTO */
+        .roteiro-view * {
+            color: #000000 !important; /* Preto Absoluto */
+            font-family: 'Courier Prime', 'Courier New', Courier, monospace !important;
+            font-size: 12pt !important;
+            line-height: 1.0 !important;
+        }
+
+        /* Reaplica as margens com força bruta (!important) */
+        .sc-scene { font-weight: bold !important; margin-top: 1.5rem !important; margin-bottom: 0.5rem !important; }
+        .sc-action { text-align: left !important; margin-bottom: 1rem !important; }
+        
+        .sc-character { 
+            margin-left: 3.7in !important; 
+            font-weight: bold !important; 
+            margin-top: 1rem !important; 
+        }
+        
+        .sc-dialogue { 
+            margin-left: 2.5in !important; 
+            width: 3.5in !important; /* Aqui que a mágica acontece no PDF */
+            margin-bottom: 0 !important; 
+        }
+        
+        .sc-parenthetical { margin-left: 3.1in !important; width: 2.5in !important; }
+        .sc-transition { text-align: right !important; }
+    }
+</style>
+
+    <h2>{{ roteiro[1] }}</h2>
+    
+    <div class="roteiro-view">
+        {{ roteiro[2] | safe }}
+    </div>
+
+    <br>
+    <a href="{{ url_for('index') }}" class="btn btn-primary no-print">Voltar para Home</a>
+    <button onclick="window.print()" class="btn btn-secondary no-print">Salvar como PDF</button>
+    
+{% endblock %}

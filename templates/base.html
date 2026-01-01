@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebbia Studio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Fonte Courier para o roteiro -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="no-print">
+        <a href="{{ url_for('index') }}" style="font-size: 1.5rem; font-weight: bold;">NEBBIA</a>
+        <link rel="stylesheet" href="{{ url_for('static', filename='imagem/logonebbia.png') }}">
+        <div>
+            {% if current_user.is_authenticated %}
+                <span>{{ current_user.nome }}</span>
+                <a href="{{ url_for('logout') }}" style="color: #ff6b6b;">Sair</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('cadastro') }}" class="btn btn-primary">Cadastro</a> 
+            {% endif %}
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

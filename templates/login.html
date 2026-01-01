@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="max-width: 400px; margin-top: 50px;">
+    <h2>Entrar no Nebbia Studio</h2>
+    <form action="/login" method="POST">
+        
+        <label>Email:</label>
+        <input type="email" name="email" required placeholder="email@exemplo.com"><br>
+        
+        <label>Senha:</label>
+        <input type="password" name="senha" required><br>
+        
+        <button type="submit" class="btn">Entrar</button>
+    </form>
+    
+    <p style="margin-top: 20px; color: #aaa;">
+        Ainda não tem conta? <a href="{{ url_for('cadastro') }}" style="color: var(--accent);">Cadastre-se</a>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,212 @@
+/* 1. Importando uma fonte bonita do Google (Inter) para ficar com cara de App */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+/* 2. Variáveis (Pra você mudar as cores fácil depois) */
+:root {
+    --bg-color: #121212;        /* Preto Quase Absoluto */
+    --card-bg: #1e1e1e;         /* Cinza Chumbo */
+    --text-main: #e0e0e0;       /* Branco Suave */
+    --text-muted: #a0a0a0;      /* Cinza para detalhes */
+    --accent: #8b5cf6;          /* Roxo Nebbia (Destaque) */
+    --accent-hover: #7c3aed;    /* Roxo mais escuro pro mouse */
+    --border: #333333;
+}
+
+/* 3. Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+}
+
+/* 4. A Navegação (Navbar) */
+nav {
+    background-color: var(--card-bg);
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: var(--accent); /* Fica roxo quando passa o mouse */
+}
+
+/* 5. O Conteúdo Principal */
+.container {
+    max-width: 900px;
+    margin: 40px auto; /* Centraliza na tela */
+    padding: 0 20px;
+}
+
+/* Títulos */
+h1, h2, h3 {
+    color: white;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-weight: 300; /* Letra mais fina */
+    letter-spacing: -1px;
+}
+
+/* 6. Estilizando a Lista de Roteiros como CARDS */
+/* Se a sua lista for <ul>, adicione class="lista-roteiros" no HTML */
+ul {
+    list-style: none;
+    display: grid;
+    gap: 15px;
+}
+
+li a {
+    display: block;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+li a:hover {
+    transform: translateY(-2px); /* Sobe um pouquinho */
+    border-color: var(--accent);
+}
+
+/* O Formulário (Inputs bonitos) */
+input[type="text"], textarea {
+    width: 100%;
+    padding: 12px;
+    background-color: #252525;
+    border: 1px solid var(--border);
+    color: white;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--accent); /* Brilha roxo quando clica */
+}
+
+/* Botão Principal */
+button, .btn {
+    background-color: var(--accent);
+    margin-top: 8px;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+/* Animação do botão */
+button:hover, .btn:hover {
+    background-color: var(--accent-hover);
+    padding: 15px 27px;
+    transition: 0.3s;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); /* Neonzinho */
+}
+
+
+/* ==========================================================================
+   10. LEI UNIVERSAL DO ROTEIRO (Nebbia Studio)
+   Isso garante que o visual seja idêntico no Editor, na Tela e no PDF
+   ========================================================================== */
+
+/* Configuração Base do Bloco de Roteiro */
+.roteiro-view {
+    font-family: 'Courier Prime', 'Courier New', Courier, monospace !important;
+    font-size: 12pt !important;
+    line-height: 1.0 !important;
+    width: 100%;
+    max-width: 8.5in; /* Tamanho de uma folha A4 */
+    margin: 0 auto;   /* Centraliza na tela */
+    padding: 20px;
+}
+
+/* --- REGRAS DE POSICIONAMENTO (HOLLYWOOD STANDARD) --- */
+/* Aplicam-se na TELA e na IMPRESSORA iguais */
+
+/* CENA: Negrito, Maiúsculo, Largura Total */
+.sc-scene {
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+/* AÇÃO: Normal, Largura Total */
+.sc-action {
+    text-align: left !important;
+    width: 100% !important;
+    margin-bottom: 1rem !important;
+    font-weight: normal !important;
+    display: block !important;
+}
+
+/* PERSONAGEM: Recuo de 3.7 polegadas */
+.sc-character {
+    text-align: left !important;
+    margin-left: 3.7in !important; /* O segredo do alinhamento */
+    width: auto !important;
+    text-transform: uppercase !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0 !important;
+    font-weight: bold !important;
+    display: block !important;
+}
+
+/* FALA (DIÁLOGO): O mais chato de arrumar */
+/* Aqui travamos a largura para não esticar até o fim */
+.sc-dialogue {
+    text-align: left !important;
+    margin-left: 2.5in !important; /* Recuo da esquerda */
+    width: 3.5in !important;       /* LARGURA FIXA (Não deixa esticar) */
+    margin-bottom: 0 !important;
+    font-weight: normal !important;
+    display: block !important;
+}
+
+/* PARÊNTESES */
+.sc-parenthetical {
+    text-align: left !important;
+    margin-left: 3.1in !important;
+    width: 2.5in !important;
+    font-style: italic !important;
+    margin-bottom: 0 !important;
+    display: block !important;
+}
+
+/* TRANSIÇÃO: Direita */
+.sc-transition {
+    text-align: right !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+    text-transform: uppercase !important;
+    display: block !important;
+}
