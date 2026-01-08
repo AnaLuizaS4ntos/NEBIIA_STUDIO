@@ -34,23 +34,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // CSS INJETADO (Para você ver a formatação enquanto escreve)
       // Nota: Esses valores batem com o seu style.css para ficar igual ao PDF
-      content_style: `
-        body { 
-          font-family: 'Courier Prime', 'Courier New', Courier, monospace;
-          font-size: 12pt;
-          line-height: 1.0;
-          max-width: 8.5in;
-          margin: 0 auto;
-          padding: 1in;
-          color: black;
-        }
-        .sc-scene { font-weight: bold; text-transform: uppercase; margin: 1.5rem 0 0.5rem 0; width: 100%; }
-        .sc-action { text-align: left; width: 100%; margin-bottom: 1rem; }
-        .sc-character { margin-left: 2.2in; font-weight: bold; text-transform: uppercase; margin-top: 1.5rem; margin-bottom: 0; }
-        .sc-dialogue { margin-left: 1.3in; width: 3.8in; margin-bottom: 0; }
-        .sc-parenthetical { margin-left: 1.9in; width: 2.5in; font-style: italic; }
-        .sc-transition { text-align: right; width: 100%; margin: 1.5rem 0; text-transform: uppercase; }
-      `,
+     /* No seu script.js, substitua o content_style por este com valores menores */
+
+content_style: `
+  body { 
+    font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+    font-size: 12pt;
+    line-height: 1.0;
+    max-width: 8.5in;
+    margin: 0 auto;
+    padding: 1in; /* A folha já tem borda */
+    color: black;
+  }
+  
+  .sc-scene { font-weight: bold; text-transform: uppercase; margin-top: 1.5em; margin-bottom: 0.5em; width: 100%; }
+  .sc-action { text-align: left; width: 100%; margin-bottom: 1em; }
+
+  /* --- VALORES CORRIGIDOS (Diminuímos ~1 polegada de tudo) --- */
+  
+  /* PERSONAGEM: Era 3.7in -> Agora 2.0in (Fica mais no meio) */
+  .sc-character { 
+    text-align: left; 
+    margin-left: 2.2in; 
+    width: auto; 
+    text-transform: uppercase; 
+    margin-top: 1em; 
+    margin-bottom: 0px; 
+    font-weight: bold; 
+  }
+
+  /* FALA: Era 2.5in -> Agora 1.3in (Não fica tão na ponta) */
+  .sc-dialogue { 
+    text-align: left; 
+    margin-left: 1.3in; 
+    width: 3.8in;  /* Aumentei um pouquinho a largura pra caber mais texto */
+    margin-bottom: 0px; 
+  }
+
+  /* PARÊNTESES: Era 3.1in -> Agora 1.9in */
+  .sc-parenthetical { 
+    text-align: left; 
+    margin-left: 1.9in; 
+    width: 2.5in; 
+    margin-bottom: 0px; 
+    font-style: italic; 
+  }
+
+  .sc-transition { text-align: right; width: 100%; margin-top: 1em; margin-bottom: 1em; }
+`,
 
       // --- AQUI ESTÁ A LÓGICA DOS BOTÕES ---
       setup: function (editor) {
@@ -139,8 +170,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-// Função chamada pelo formulário ao clicar em "Salvar"
-// Ela garante que o texto do editor vá para o <textarea> escondido
 function salvaConteudo() {
   if (typeof tinymce !== 'undefined' && tinymce.get('roteiro_editor')) {
       tinymce.triggerSave();

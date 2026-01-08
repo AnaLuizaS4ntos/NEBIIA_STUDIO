@@ -1,44 +1,134 @@
 {% extends "base.html" %}
-{% block content %}
-    <h2>Criar Roteiro Profissional</h2>
-    <form method="post" onsubmit="return salvaConteudo();">
-        <label for="titulo">Título do Roteiro</label>
-        <input name="titulo" required>
 
-        <label for="conteudo">Conteúdo do Roteiro</label>
-        <!-- TinyMCE textarea -->
+{% block content %}
+<div style="max-width: 850px; margin: 0 auto; padding: 20px;">
+    
+    <h2>Criar Roteiro Profissional</h2>
+
+    <form action="/criar" method="post" enctype="multipart/form-data" onsubmit="return salvaConteudo();">
+        
+        <label for="titulo" style="display: block; margin-bottom: 5px; font-weight: bold;">Título do Roteiro</label>
+        <input name="titulo" required style="width: 100%; padding: 10px; margin-bottom: 20px; border-radius: 5px; border: 1px solid #444; background: #1e1e1e; color: white;">
+
+        <div style="background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 30px; border: 1px dashed #666;">
+            <label style="color: #a6ff00; font-weight: bold; font-size: 1.1em; display: flex; align-items: center; gap: 10px;">
+                📂 Anexar PDF (Opcional)
+            </label>
+            
+            <input type="file" name="arquivo_pdf" accept=".pdf" style="margin-top: 10px; color: white; width: 100%;">
+            
+            <p style="font-size: 0.9em; color: #aaa; margin-top: 5px;">
+                Se enviar um PDF, <strong>não precisa</strong> escrever nada no editor abaixo.
+            </label>
+        </div>
+
+        <label for="conteudo" style="display: block; margin-bottom: 5px; font-weight: bold;">Conteúdo do Roteiro (ou deixe vazio se enviou PDF)</label>
+        
         <textarea id="roteiro_editor"></textarea>
         <input type="hidden" name="conteudo" id="roteiro_invisivel">
 
-        <button type="submit" id="salvar_roteiro">Salvar roteiro</button>
-        <button type="button" id="btn btn-warning" onclick="apagarConteudo()">Apagar conteúdo</button>
+        <div style="margin-top: 20px; display: flex; gap: 15px;">
+            <button type="submit" id="salvar_roteiro" cclass="btn btn-primary" >
+                Salvar Roteiro
+            </button>
+            
+            <button type="button" onclick="apagarConteudo()" class="btn btn-primary" style="background-color: red;">
+                Apagar Conteúdo
+            </button>
+        </div>
 
     </form>
+</div>
 
-    <script src="https://cdn.tiny.cloud/1/c0tz1vaqhk4377r1kpgq1573omok8ktikm8mhr2snonhhqw2/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-      tinymce.init({
-        selector: '#roteiro_editor',
-        height: 400,
-        menubar: false,
-        plugins: [
-          'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview', 'anchor',
-          'searchreplace', 'visualblocks', 'code', 'insertdatetime', 'table'
-        ],
-        toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code',
-        content_style: "body { font-family: Courier New, monospace; font-size: 1.1em; background:#fff; }"
-      });
+<script src="https://cdn.tiny.cloud/1/c0tz1vaqhk4377r1kpgq1573omok8ktikm8mhr2snonhhqw2/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
-      function salvaConteudo() {
+<script>
+    // SEU SCRIPT ORIGINAL CONTINUA AQUI INTACTO
+    
+    // AJUSTE FINO (HOLLYWOOD STANDARD)
+    const cssRoteiro = `
+      body { 
+          font-family: 'Courier Prime', 'Courier New', monospace; 
+          font-size: 12pt; 
+          color: black;
+          max-width: 850px;
+          margin: 0 auto;
+          padding: 20px;
+      }
+      /* CENA */
+      .cena { font-weight: bold; text-transform: uppercase; margin-top: 2em; margin-bottom: 1em; background: #eee; display: block; width: 100%; }
+      /* AÇÃO */
+      .acao { text-align: left; margin-bottom: 1em; display: block; width: 100%; }
+      /* PERSONAGEM */
+      .personagem { margin-left: 40%; width: 30%; font-weight: bold; text-transform: uppercase; margin-top: 1em; margin-bottom: 0; display: block; }
+      /* FALA */
+      .fala { margin-left: 25%; width: 50%; margin-bottom: 0; display: block; }
+      /* PARÊNTESES */
+      .parentese { margin-left: 32%; width: 36%; font-style: italic; margin-bottom: 0; display: block; }
+      /* TRANSIÇÃO */
+      .transicao { text-align: right; margin-top: 1em; text-transform: uppercase; display: block; }
+    `;
+
+    tinymce.init({
+      selector: '#roteiro_editor',
+      height: 600,
+      menubar: false,
+      statusbar: false,
+      toolbar: 'btCena btAcao btPersonagem btFala btParentese btTransicao | undo redo | removeformat',
+      content_style: cssRoteiro,
+      formats: {
+          fmtCena:       { block: 'h3', classes: 'cena', remove: 'all', exact: true },
+          fmtAcao:       { block: 'p',  classes: 'acao', remove: 'all', exact: true },
+          fmtPersonagem: { block: 'p',  classes: 'personagem', remove: 'all', exact: true },
+          fmtFala:       { block: 'p',  classes: 'fala', remove: 'all', exact: true },
+          fmtParentese:  { block: 'p',  classes: 'parentese', remove: 'all', exact: true },
+          fmtTransicao:  { block: 'p',  classes: 'transicao', remove: 'all', exact: true }
+      },
+      setup: function (editor) {
+          editor.ui.registry.addButton('btCena', { text: 'CENA', onAction: () => editor.formatter.apply('fmtCena') });
+          editor.ui.registry.addButton('btAcao', { text: 'AÇÃO', onAction: () => editor.formatter.apply('fmtAcao') });
+          editor.ui.registry.addButton('btPersonagem', { text: 'PERSONAGEM', onAction: () => editor.formatter.apply('fmtPersonagem') });
+          editor.ui.registry.addButton('btFala', { text: 'FALA', onAction: () => editor.formatter.apply('fmtFala') });
+          editor.ui.registry.addButton('btParentese', { text: '(parênteses)', onAction: () => editor.formatter.apply('fmtParentese') });
+          editor.ui.registry.addButton('btTransicao', { text: 'TRANSIÇÃO', onAction: () => editor.formatter.apply('fmtTransicao') });
+
+          editor.on('keydown', function (e) {
+              if (e.keyCode === 13 && !e.shiftKey) {
+                  const node = editor.selection.getNode();
+                  const texto = node.textContent.trim();
+                  
+                  if (node.classList.contains('personagem') && texto.length > 0) {
+                      e.preventDefault(); 
+                      editor.insertContent('<p class="fala">&nbsp;</p>');
+                      return;
+                  }
+
+                  const classesEspeciais = ['fala', 'parentese', 'transicao', 'cena'];
+                  const ehEspecial = classesEspeciais.some(cls => node.classList.contains(cls));
+
+                  if (ehEspecial && texto.length === 0) {
+                      e.preventDefault();
+                      node.className = 'acao';
+                      node.removeAttribute('style');
+                      return;
+                  }
+              }
+          });
+      }
+    });
+
+    function salvaConteudo() {
+      if (tinymce.get('roteiro_editor')) {
         document.getElementById('roteiro_invisivel').value = tinymce.get('roteiro_editor').getContent();
-        return true; // permite submit
       }
+      return true; 
+    }
 
-      function apagarConteudo(){
-        if(confirm("Você quer mesmo excluir todo o conteúdo do roteiro? Isso não poder ser desfeito!")){
-          tinymce.get('roteiro_editor').setContent('');
-          document.getElementById('roteiro_invisivel').value = ''; //Limpa o conteudo
-        }
+    function apagarConteudo(){
+      if(confirm("Tem certeza que deseja apagar tudo?")){
+        tinymce.get('roteiro_editor').setContent('');
+        document.getElementById('roteiro_invisivel').value = '';
       }
-    </script>
-{% endblock %} 
+    }
+</script>
+{% endblock %}

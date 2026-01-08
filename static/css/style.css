@@ -10,6 +10,8 @@
     --accent: #8b5cf6;          /* Roxo Nebbia (Destaque) */
     --accent-hover: #7c3aed;    /* Roxo mais escuro pro mouse */
     --border: #333333;
+    --bg-button: #bcf521; /*neon*/
+    --bg-mouse: #a7e302;
 }
 
 /* 3. Reset Básico */
@@ -28,7 +30,7 @@ body {
 
 /* 4. A Navegação (Navbar) */
 nav {
-    background-color: var(--card-bg);
+    background-color: var(--accent);
     padding: 1rem 2rem;
     border-bottom: 1px solid var(--border);
     display: flex;
@@ -104,14 +106,14 @@ input[type="text"], textarea {
 }
 
 input:focus, textarea:focus {
-    border-color: var(--accent); /* Brilha roxo quando clica */
+    border-color: var(--bg-button); /* Brilha neon quando clica */
 }
 
 /* Botão Principal */
 button, .btn {
-    background-color: var(--accent);
+    background-color: var(--bg-button);
     margin-top: 8px;
-    color: white;
+    color: var(--bg-color);
     padding: 12px 24px;
     border: none;
     border-radius: 6px;
@@ -123,10 +125,10 @@ button, .btn {
 }
 /* Animação do botão */
 button:hover, .btn:hover {
-    background-color: var(--accent-hover);
+    background-color: var(--bg-mouse);
     padding: 15px 27px;
     transition: 0.3s;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); /* Neonzinho */
+    box-shadow: 0 0 15px rgba(213, 255, 157, 0.386); /* Neonzinho */
 }
 
 
@@ -209,4 +211,85 @@ button:hover, .btn:hover {
     margin-bottom: 1rem !important;
     text-transform: uppercase !important;
     display: block !important;
+}
+
+/* --- MÁGICA DA IMPRESSÃO (PDF) --- */
+@media print {
+    /* Esconde a interface do site */
+    .no-print, nav, footer, button, body > h2, .mesa-de-leitura > h2 { 
+        display: none !important; 
+    }
+
+    /* Reseta o fundo do navegador */
+    body, .mesa-de-leitura {
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Configura a folha para ocupar o papel real */
+    .folha-roteiro {
+        width: 100% !important;
+        max-width: none !important;
+        box-shadow: none !important; /* Tira a sombra 3D */
+        padding: 0 !important; /* O navegador já põe margem, então zeramos a interna */
+        margin: 0 !important;
+    }
+
+    /* Define o papel A4 na impressora */
+    @page {
+        size: A4;
+        margin: 20mm; /* Margem física da impressora */
+    }
+}
+
+/* STYLE DO CADASTRO E LOGIN */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;             /* Garante que todos ocupem a largura total */
+    padding: 12px;           /* Espaço interno igual para todos */
+    margin-bottom: 15px;     /* Espaço embaixo igual */
+    
+    background-color: #1e1e1e; /* O fundo escuro (ajuste para a sua cor exata) */
+    border: 1px solid #444;    /* Borda sutil */
+    border-radius: 6px;        /* Cantos arredondados iguais */
+    
+    color: white;              /* AQUI O PULO DO GATO: Texto branco ao digitar */
+    font-family: 'Inter', sans-serif; /* Mesma fonte para todos */
+    font-size: 1rem;
+    
+    /* Evita que o padding estoure o tamanho da caixa */
+    box-sizing: border-box; 
+}
+::placeholder {
+    color: #888; /* Um cinza clarinho para a dica */
+    opacity: 1;
+}
+input:focus {
+    outline: none;
+    border-color: #a6ff00; /* Aquele verdinho neon quando clica */
+    box-shadow: 0 0 5px rgba(166, 255, 0, 0.3); /* Um brilho leve */
+}
+
+/*STYLE VISUALIZAR(icone olho)*/
+/* Container para segurar o input e o ícone juntos */
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+/* O ícone do olho */
+.eye-icon {
+    position: absolute;
+    right: 14px;      /* Fica no cantinho direito */
+    top: 39%;         /* Centraliza na vertical */
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;      /* Cor padrão (cinza) */
+    width: 20px;
+}
+
+.eye-icon:hover {
+    color: #bcf521;   /* Fica VERDE NEBBIA quando passa o mouse */
 }

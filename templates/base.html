@@ -5,27 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nebbia Studio</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- Fonte Courier para o roteiro -->
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Faz o rodapé ficar sempre embaixo */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .main-content {
+            flex: 1;
+        }
+
+        /* Arruma a Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            padding: 15px 40px; /* Espaço nas laterais */
+            flex-wrap: nowrap; /* PROIBIDO quebrar linha na barra inteira */
+        }
+
+        /* Garante que o texto do menu nunca quebre linha */
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            white-space: nowrap; /* Texto fica em uma linha só */
+        }
+    </style>
 </head>
 <body>
 
     <nav class="no-print">
-        <a href="{{ url_for('index') }}" style="font-size: 1.5rem; font-weight: bold;">NEBBIA</a>
-        <link rel="stylesheet" href="{{ url_for('static', filename='imagem/logonebbia.png') }}">
-        <div>
+        <div style="display: flex; align-items: center;">
+            <a href="{{ url_for('index') }}">
+              <img src="{{ url_for('static', filename='imagem/logonebbia.png') }}" alt="Logo Nebbia" style="height: 40px;">
+            </a>
+        </div>
+
+        <div class="nav-menu">
+            
             {% if current_user.is_authenticated %}
-                <span>{{ current_user.nome }}</span>
-                <a href="{{ url_for('logout') }}" style="color: #ff6b6b;">Sair</a>
+                <a href="{{ url_for('meus_roteiros') }}" style="color: #e0e0e0; text-decoration: none;">Meus Roteiros</a>
+                
+                <a href="{{ url_for('criar') }}" class="btn btn-primary" style="margin-top: 2px;">+ Criar</a>
+                
+                <span style="color: #666;">|</span> 
+                
+                <span style="font-weight: bold; color: #fff;">{{ current_user.nome }}</span>
+                
+                <a href="{{ url_for('logout') }}" style="color: #ff6b6b; font-size: 0.9em; text-decoration: none;">Sair</a>
+            
             {% else %}
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('cadastro') }}" class="btn btn-primary">Cadastro</a> 
+                <a href="{{ url_for('login') }}" style="color: #e0e0e0; text-decoration: none;">Login</a>
+                <a href="{{ url_for('cadastro') }}" class="btn btn-primary" style="margin-top: 2px;">Cadastro</a> 
             {% endif %}
+            
         </div>
     </nav>
+    
+    <div class="main-content">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-    {% block content %}
-    {% endblock %}
+    <footer class="site-footer no-print">
+        <div class="footer-content" style="padding: 30px; text-align: center; border-top: 1px solid #333; margin-top: 40px;">
+            <p style="color: #888;">&copy; 2026 <strong>Nebbia Studio</strong></p>
+            
+            <p class="dev-credit" style="color: #666; font-size: 0.9em;">
+                Code & Design by 
+                <a href="https://github.com/AnaLuizaS4ntos" target="_blank" style="color: #bcf521; text-decoration: none;">Ana Luíza Santos</a>
+            </p>
+        </div>
+    </footer>
 
 </body>
 </html>

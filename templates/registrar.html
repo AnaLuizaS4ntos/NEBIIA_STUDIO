@@ -1,21 +1,49 @@
 {% extends "base.html" %}
+
 {% block content %}
 <div class="container" style="max-width: 400px; margin-top: 50px;">
+    
     <h2>Criar Conta</h2>
-    <form action="/cadastro" method="POST">
+    
+    <div style="display: flex; justify-content: center;">
+        <form action="/cadastro" method="POST" style="background-color: var(--accent); padding: 40px; border-radius: 12px; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
 
-        <label>Nome:</label>
-        <input type="text" name="nome" required placeholder="Seu nome de usuário"><br>
+            <label>Nome:</label>
+            <input type="text" name="nome" required placeholder="Seu nome de usuário">
 
-        <label>Email:</label>
-        <input type="email" name="email" required placeholder="email@exemplo.com"><br>
+            <label>Email:</label>
+            <input type="email" name="email" required placeholder="email@exemplo.com">
 
-        <label>Senha:</label>
-        <input type="password" name="senha" required><br>
+            <label>Senha:</label>
+            <div class="password-container">
+                <input type="password" name="senha" id="senhaInput" required placeholder="Sua senha">
+                <svg onclick="toggleSenha()" class="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+            </div>
+        
 
-        <button type="submit" class="btn">Cadastrar</button>
+            <button type="submit" class="btn" style="width: 100%; margin-top: 10px; font-weight: bold;">
+                Cadastrar
+            </button>
 
-    </form>
+        </form>
+    </div>
+
 </div>
+<script>
+    function toggleSenha() {
+        var input = document.getElementById("senhaInput");
+        var icon = document.querySelector(".eye-icon");
+        
+        if (input.type === "password") {
+            input.type = "text"; // Mostra a senha
+            icon.style.color = "#bcf521"; // O olho fica verde aceso
+        } else {
+            input.type = "password"; // Esconde a senha
+            icon.style.color = "#888"; // O olho volta a ficar cinza
+        }
+    }
+</script>
 {% endblock %}
-

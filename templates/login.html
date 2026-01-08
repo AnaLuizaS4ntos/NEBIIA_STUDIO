@@ -3,19 +3,43 @@
 {% block content %}
 <div class="container" style="max-width: 400px; margin-top: 50px;">
     <h2>Entrar no Nebbia Studio</h2>
-    <form action="/login" method="POST">
+    <div>
+       <form action="/login" method="POST" style=" align-items: center; background-color: var(--accent); padding: 40px; border-radius: 8px;">
         
         <label>Email:</label>
         <input type="email" name="email" required placeholder="email@exemplo.com"><br>
         
         <label>Senha:</label>
-        <input type="password" name="senha" required><br>
+        <div class="password-container">
+        <input type="password" name="senha" id="senhaInput" required placeholder="Sua senha">
+    
+          <svg onclick="toggleSenha()" class="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+        </div>
         
-        <button type="submit" class="btn">Entrar</button>
-    </form>
+        <button type="submit" class="btn" style="width: 100%; margin-top: 10px; font-weight: bold;">Entrar</button>
+    </form> 
+    </div>
+    
     
     <p style="margin-top: 20px; color: #aaa;">
         Ainda não tem conta? <a href="{{ url_for('cadastro') }}" style="color: var(--accent);">Cadastre-se</a>
     </p>
 </div>
+<script>
+    function toggleSenha() {
+        var input = document.getElementById("senhaInput");
+        var icon = document.querySelector(".eye-icon");
+        
+        if (input.type === "password") {
+            input.type = "text"; // Mostra a senha
+            icon.style.color = "#bcf521"; // O olho fica verde aceso
+        } else {
+            input.type = "password"; // Esconde a senha
+            icon.style.color = "#888"; // O olho volta a ficar cinza
+        }
+    }
+</script>
 {% endblock %}

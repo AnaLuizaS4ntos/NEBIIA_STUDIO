@@ -3,8 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 import sqlite3
 import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+# Onde os PDFs moram
+app.config['UPLOAD_FOLDER'] = 'static/pdfs' 
+
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 app.config['SECRET_KEY'] = 'chave-secreta-nebbia'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -22,14 +27,14 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
-# --- 2. MODELO DO USUÁRIO ---
+# 2. MODELO DO USUÁRIO 
 class Usuario(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     senha = db.Column(db.String(100), nullable=False)
 
-# --- 3. INICIALIZAÇÃO DO BANCO ---
+# 3. INICIALIZAÇÃO DO BANCO 
 def init_db():
     with app.app_context():
         db.create_all()
@@ -115,18 +120,37 @@ def index():
     
     return render_template("index.html", roteiros=roteiros, usuario=current_user)
 
-@app.route("/criar", methods=["GET", "POST"])
+@app.route('/criar', methods=['GET', 'POST'])
+@login_required
 def criar():
-    if request.method == "POST":
-        titulo = request.form['titulo']
-        conteudo = request.form['conteudo']
+    if request.method == 'POST':
+        titulo = request.form.get('titulo')
+        conteudo = request.form.get('conteudo')
+        
+        # Tenta pegar o arquivo PDF (se a pessoa enviou)
+        arquivo = request.files.get('arquivo_pdf')
+        nome_pdf = None 
+
+        # Se tiver arquivo e for PDF, salva
+        if arquivo and arquivo.filename != '':
+            filename = secure_filename(arquivo.filename)
+            arquivo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            nome_pdf = filename # Guarda o nome para o banco
+
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO roteiros (titulo, conteudo) VALUES (?, ?)", (titulo, conteudo))
+        
+        # Salvamos Título, Conteúdo, ID do Usuário E O PDF
+        cursor.execute("""
+            INSERT INTO roteiros (titulo, conteudo, id_usuario, pdf)
+            VALUES (?, ?, ?, ?)
+        """, (titulo, conteudo, current_user.id, nome_pdf))
+        
         conn.commit()
         conn.close()
-        return redirect(url_for('index'))
-    return render_template("criar.html")
+        return redirect(url_for('meus_roteiros'))
+        
+    return render_template('criar.html')
 
 @app.route("/roteiro/<int:id>")
 def ler(id):
@@ -136,6 +160,37 @@ def ler(id):
     roteiro = cursor.fetchone()
     conn.close()
     return render_template("ler.html", roteiro=roteiro)
+
+# Adicione isso junto com as outras rotas
+@app.route("/meus_roteiros")
+@login_required
+def meus_roteiros():
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    
+    # Filtra o usuario logado
+    cursor.execute("SELECT * FROM roteiros WHERE id_usuario = ?", (current_user.id,))
+    meus_roteiros = cursor.fetchall()
+    
+    conn.close()
+    return render_template("meus_roteiros.html", roteiros=meus_roteiros)
+
+# Rota para EXCLUIR um roteiro
+@app.route('/deletar/<int:id>')
+@login_required
+def deletar(id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT id_usuario FROM roteiros WHERE id = ?", (id,))
+    roteiro = cursor.fetchone()
+    
+    if roteiro and roteiro[0] == current_user.id:
+        cursor.execute("DELETE FROM roteiros WHERE id = ?", (id,))
+        conn.commit()
+    
+    conn.close()
+    return redirect(url_for('meus_roteiros'))
 
 if __name__ == "__main__":
     app.run(debug=True)

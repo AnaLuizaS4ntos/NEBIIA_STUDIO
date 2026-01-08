@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Meus Projetos</h2>
+    
+    <a href="{{ url_for('criar') }}" class="btn">Novo Roteiro +</a>
+
+    <div class="lista-roteiros" style="margin-top: 20px;">
+        {% if roteiros|length == 0 %}
+            <p>Você ainda não criou nenhum roteiro.</p>
+        {% else %}
+            <ul>
+                {% for roteiro in roteiros %}
+                <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #2a2a2a; padding: 15px; border-radius: 8px;">
+    
+                <a href="{{ url_for('ler', id=roteiro[0]) }}" style="text-decoration: none; color: white; font-weight: bold; font-size: 1.1em;">
+                {{ roteiro[1] }}
+                </a>
+
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <a href="{{ url_for('ler', id=roteiro[0]) }}" style="color: #a6ff00; text-decoration: none; font-size: 0.9em;">
+            ABRIR ➜ 
+        </a>
+        
+        <a href="{{ url_for('deletar', id=roteiro[0]) }}" 
+           onclick="return confirm('Tem certeza que quer apagar esse roteiro?');"
+           style="text-decoration: none; font-size: 0.9rem; color: red;"
+           title="Excluir">Excluir
+        </a>
+    </div>
+        </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
