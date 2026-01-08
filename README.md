@@ -76,7 +76,7 @@ Agora é só iniciar a aplicação:
 
 Contato
 Projeto desenvolvido por Ana Luiza.
-(88) 994165427 - whatsapp
+(85) 994165427 - whatsapp
 analuizadossantos5@gmail.com
 ---
 
