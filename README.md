@@ -80,15 +80,6 @@ Projeto desenvolvido por Ana Luiza.
 analuizadossantos5@gmail.com
 ---
 
-### Dica Extra:
-Você viu que eu coloquei um passo ali **"4. Instalar as Dependências"**?
-Para isso funcionar perfeitamente igual a um projeto profissional, você deve criar um arquivo `requirements.txt`.
-
-**Como criar em 1 segundo:**
-1.  No seu terminal do VS Code (com o `(venv)` ativado), digite:
-    `pip freeze > requirements.txt`
-2.  Vai aparecer um arquivo novo chamado `requirements.txt` na pasta.
-3.  Dá um `git add requirements.txt`, `git commit` e `git push`.
 
 
 
