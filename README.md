@@ -33,6 +33,65 @@ Você precisa ter o **Python** instalado. [Baixe aqui](https://www.python.org/do
 ### 2. Clonar o Repositório
 Abra seu terminal (Git Bash ou CMD) e digite:
 
-```bash
+`bash
 git clone [https://github.com/AnaLuizaS4ntos/NEBIIA_STUDIO.git](https://github.com/AnaLuizaS4ntos/NEBIIA_STUDIO.git)
-cd NEBIIA_STUDIO
+cd NEBIIA_STUDIO `
+
+### 3. Criar e Ativar o Ambiente Virtual (Recomendado)
+**No windows**
+` python -m venv venv `
+` venv\Scripts\activate `
+
+**No Mac/Linux**
+` python3 -m venv venv `
+` source venv/bin/activate `
+
+### 4. Instalar as Dependências (Flask e outras)
+O projeto utiliza o Flask. Para instalar todas as ferramentas necessárias de uma vez:
+
+` pip install flask sqlalchemy `
+(Se houver um arquivo requirements.txt, use: pip install -r requirements.txt)
+
+### 5. Configurar o Banco de Dados
+Para garantir que o banco de dados seja criado corretamente na primeira execução:
+
+` python atualizar_banco.py `
+
+### 6. Rodar o Servidor
+Agora é só iniciar a aplicação:
+
+` python app.py `
+
+**Acesse no seu navegador: http://127.0.0.1:5000** (use tbm o ctrl + click)
+
+
+### Funcionalidades Atuais
+[x] Autenticação: Login e Registro de novos usuários com segurança.
+
+[x] Dashboard: Painel exclusivo para ver seus projetos.
+
+[x] Leitor de PDF: Visualizador embutido para não precisar baixar o arquivo.
+
+[x] Upload: Envio de arquivos PDF para a nuvem/servidor local.
+
+Contato
+Projeto desenvolvido por Ana Luiza.
+(88) 994165427 - whatsapp
+analuizadossantos5@gmail.com
+---
+
+### Dica Extra:
+Você viu que eu coloquei um passo ali **"4. Instalar as Dependências"**?
+Para isso funcionar perfeitamente igual a um projeto profissional, você deve criar um arquivo `requirements.txt`.
+
+**Como criar em 1 segundo:**
+1.  No seu terminal do VS Code (com o `(venv)` ativado), digite:
+    `pip freeze > requirements.txt`
+2.  Vai aparecer um arquivo novo chamado `requirements.txt` na pasta.
+3.  Dá um `git add requirements.txt`, `git commit` e `git push`.
+
+
+
+
+
+
